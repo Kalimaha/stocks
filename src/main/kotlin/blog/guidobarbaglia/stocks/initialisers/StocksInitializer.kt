@@ -8,13 +8,14 @@ import javax.annotation.PostConstruct
 
 @Component
 class StocksInitializer(val stocksRepository: StocksRepository) {
+  @Suppress("unused")
   @PostConstruct
   fun init() {
     stocksRepository
       .deleteAll()
       .thenMany(
         Flux
-          .just("AX:REA", "AX:OPT", "AX:SZL")
+          .just("ASX:REA", "ASX:OPT", "ASX:SZL")
           .map { Stock(code = it) }
           .flatMap { stocksRepository.save(it) }
       )

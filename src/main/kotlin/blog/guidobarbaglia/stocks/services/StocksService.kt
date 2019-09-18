@@ -10,5 +10,5 @@ import reactor.core.publisher.Mono
 class StocksService(val stocksRepository: StocksRepository) {
   fun stocks(): Flux<Stock> = stocksRepository.findAll()
 
-  fun stock(stockId: String): Mono<Stock> = stocksRepository.findById(stockId)
+  fun stock(stockCode: String): Mono<Stock> = stocksRepository.findByCode(stockCode)
 }

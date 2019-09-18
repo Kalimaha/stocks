@@ -23,14 +23,14 @@ class StocksServiceTest {
   @MockBean
   lateinit var stocksRepository: StocksRepository
 
-  private val stock1 = Stock(id = "S01", code = "AX:REA")
-  private val stock2 = Stock(id = "S02", code = "AX:OPT")
+  private val stock1 = Stock(code = "ASX:REA")
+  private val stock2 = Stock(code = "ASX:OPT")
 
   @Before
   fun setUp() {
     Mockito.`when`(stocksRepository.findAll()).thenReturn(Flux.just(stock1, stock2))
-    Mockito.`when`(stocksRepository.findById(stock1.id!!)).thenReturn(Mono.just(stock1))
-    Mockito.`when`(stocksRepository.findById(stock2.id!!)).thenReturn(Mono.just(stock2))
+    Mockito.`when`(stocksRepository.findByCode(stock1.code!!)).thenReturn(Mono.just(stock1))
+    Mockito.`when`(stocksRepository.findByCode(stock2.code!!)).thenReturn(Mono.just(stock2))
   }
 
   @Test
@@ -45,7 +45,7 @@ class StocksServiceTest {
   @Test
   fun `Specific stock`() {
     StepVerifier
-      .withVirtualTime { stocksService.stock("S02") }
+      .withVirtualTime { stocksService.stock("ASX:OPT") }
       .expectNext(stock2)
       .verifyComplete()
   }

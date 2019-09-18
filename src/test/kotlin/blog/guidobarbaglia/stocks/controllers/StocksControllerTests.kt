@@ -10,6 +10,7 @@ import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.http.MediaType
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.returnResult
@@ -26,29 +27,43 @@ class StocksControllerTests {
   @MockBean
   lateinit var stocksRepository: StocksRepository
 
-  private val stock1 = Stock(id = "S01", code = "AX:REA")
-  private val stock2 = Stock(id = "S02", code = "AX:OPT")
+  private val stock1 = Stock(code = "ASX:REA")
+  private val stock2 = Stock(code = "ASX:OPT")
 
   @Before
   fun setUp() {
     Mockito.`when`(stocksRepository.findAll()).thenReturn(Flux.just(stock1, stock2))
-    Mockito.`when`(stocksRepository.findById(stock1.id!!)).thenReturn(Mono.just(stock1))
-    Mockito.`when`(stocksRepository.findById(stock2.id!!)).thenReturn(Mono.just(stock2))
+    Mockito.`when`(stocksRepository.findByCode(stock1.code!!)).thenReturn(Mono.just(stock1))
+    Mockito.`when`(stocksRepository.findByCode(stock2.code!!)).thenReturn(Mono.just(stock2))
   }
 
   @Test
   fun `Find all the stocks`() {
     StepVerifier
-      .create(stocksClient.get().uri("/stocks").exchange().expectStatus().isOk.returnResult<Stock>().responseBody)
+      .create(
+        stocksClient
+          .get().uri("/stocks")
+          .exchange()
+          .expectStatus().isOk
+          .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+          .returnResult<Stock>().responseBody
+      )
       .expectNext(stock1)
       .expectNext(stock2)
       .verifyComplete()
   }
 
   @Test
-  fun `Find by stock's ID`() {
+  fun `Find by stock's code`() {
     StepVerifier
-      .create(stocksClient.get().uri("/stocks/S02").exchange().expectStatus().isOk.returnResult<Stock>().responseBody)
+      .create(
+        stocksClient
+          .get().uri("/stocks/ASX:OPT")
+          .exchange()
+          .expectStatus().isOk
+          .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+          .returnResult<Stock>().responseBody
+      )
       .expectNext(stock2)
       .verifyComplete()
   }

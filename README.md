@@ -1,0 +1,21 @@
+# Spring reactor with Kotlin
+
+Playground to practice [Mark Heckler](https://github.com/mkheck)'s:
+
+* [Talk](https://youtu.be/jf3dXYkrAtM)
+* [Repo](https://github.com/mkheck/FSR)
+
+## Development
+
+* build: `./gradlew build`
+* test: `./gradlew test`
+* run `./gradlew bootRun`
+
+## Test
+
+## Run
+
+## Endpoints
+
+* [http://localhost:8080/stocks](http://localhost:8080/stocks)
+* [http://localhost:8080/stocks/ASX:OPT](http://localhost:8080/stocks/ASX:OPT)
