@@ -1,4 +1,4 @@
-package blog.guidobarbaglia.stocks.initialisers
+package blog.guidobarbaglia.stocks.initializers
 
 import blog.guidobarbaglia.stocks.models.Stock
 import blog.guidobarbaglia.stocks.repositories.StocksRepository
@@ -16,7 +16,7 @@ class StocksInitializer(val stocksRepository: StocksRepository) {
       .thenMany(
         Flux
           .just("ASX:REA", "ASX:OPT", "ASX:SZL")
-          .map { Stock(code = it) }
+          .map { Stock(code = it, description = "$it shares are great!") }
           .flatMap { stocksRepository.save(it) }
       )
       .thenMany(stocksRepository.findAll())

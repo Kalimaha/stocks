@@ -11,11 +11,9 @@ Playground to practice [Mark Heckler](https://github.com/mkheck)'s:
 * test: `./gradlew test`
 * run `./gradlew bootRun`
 
-## Test
-
-## Run
-
 ## Endpoints
 
 * [http://localhost:8080/stocks](http://localhost:8080/stocks)
 * [http://localhost:8080/stocks/ASX:OPT](http://localhost:8080/stocks/ASX:OPT)
+* [http://localhost:8080/stocks/ASX:OPT/prices](http://localhost:8080/stocks/ASX:OPT/prices)
+* [http://localhost:8080/stocks/ASX:OPT/slow](http://localhost:8080/stocks/ASX:OPT/slow)
